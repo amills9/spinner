@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${PGUSER:-spinner}
+      POSTGRES_PASSWORD: ${PGPASSWORD:-spinner}
+      POSTGRES_DB: ${PGDATABASE:-word_spinner}
+    volumes:
+      - spinner-db-data:/var/lib/postgresql/data
+      - ./db/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+    networks:
+      - spinner-net
+
+  spinner-backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: ${PGUSER:-spinner}
+      PGPASSWORD: ${PGPASSWORD:-spinner}
+      PGDATABASE: ${PGDATABASE:-word_spinner}
+      APP_TIMEZONE: ${APP_TIMEZONE:-Australia/Sydney}
+      TESTING_MODE: ${TESTING_MODE:-false}
+      PORT: 3001
+    depends_on:
+      - db
+    networks:
+      - spinner-net
+
+  spinner-frontend:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - spinner-backend
+    networks:
+      - spinner-net
+      - proxy-net
+
+networks:
+  spinner-net:
+    driver: bridge
+  proxy-net:
+    external: true
+
+volumes:
+  spinner-db-data:

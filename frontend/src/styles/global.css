@@ -1,0 +1,30 @@
+:root {
+  --pink: #FF6FA5;
+  --pink-dark: #D9447C;
+  --yellow: #FFC93C;
+  --yellow-dark: #E0A400;
+  --teal: #2EC4B6;
+  --teal-dark: #1C8A80;
+  --purple: #7B61FF;
+  --purple-dark: #5A3FD9;
+  --cream: #FFF8ED;
+  --ink: #1B1B3A;
+  --font-display: "Fredoka", sans-serif;
+  --font-body: "Nunito", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+
+button {
+  font-family: var(--font-body);
+}

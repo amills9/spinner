@@ -1,0 +1,8 @@
+services:
+  spinner-frontend:
+    ports:
+      - "8090:80"
+
+networks:
+  proxy-net:
+    external: false
